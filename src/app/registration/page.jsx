@@ -1,8 +1,12 @@
-// page.js
-"use client"; // Make the page fully client-side
 
+// /app/registration/page.jsx
+import React, { Suspense } from "react";
 import RegistrationForm from "../components/RegistrationForm";
 
 export default function Page() {
-    return <RegistrationForm/>;
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <RegistrationForm />
+        </Suspense>
+    );
 }
