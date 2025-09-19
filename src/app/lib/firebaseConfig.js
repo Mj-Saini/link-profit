@@ -5,14 +5,15 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAEzE01--N3dAFKXXjl5__uZ-bgHBA8Wh8",
-  authDomain: "referral-rise-official.firebaseapp.com",
-  databaseURL: "https://referral-rise-official-default-rtdb.firebaseio.com",
-  projectId: "referral-rise-official",
-  storageBucket: "referral-rise-official.appspot.com",
-  messagingSenderId: "227546326703",
-  appId: "1:227546326703:web:c778b8b72349aa7319565a",
-  measurementId: "G-ZQ80QBF1Y8"
+
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    databaseURL: "https://referral-rise-official-default-rtdb.firebaseio.com",
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: "G-ZQ80QBF1Y8"
 };
 
 // Initialize Firebase
