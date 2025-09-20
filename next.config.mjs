@@ -1,16 +1,3 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   images: {
-//     domains: [
-//       'play.googlelucky.com',
-//       'play-lh.googleusercontent.com',
-//       'm.sfsfsat.vip', 
-//     ],
-//   },
-// };
-
-// export default nextConfig;
-
 
 
 // next.config.js

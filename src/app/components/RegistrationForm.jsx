@@ -74,12 +74,8 @@ const RegistrationForm = () => {
                 ReferredBy: "",
                 Token: "",
             });
-
-
-            
-            
-            console.log("✅ Registered:", userCred.user);
-            setCookie("registered", "true", { path: "/", httpOnly: true });
+   console.log("✅ Registered:", userCred.user);
+            setCookie("registered", "true", { path: "/", httpOnly: false });
             router.push("/");
         } catch (err) {
             console.error(err);
