@@ -30,6 +30,15 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/((?!registration).*)", // sab pages except /register
+        destination: "/registration",
+        permanent: false, // false rakh taaki easily change ho sake
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
