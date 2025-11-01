@@ -34,6 +34,8 @@ export default function RegistrationPage() {
 
 
     return (
-        <RegistrationForm />
+        <Suspense fallback={<div className="text-white text-center mt-10">Loading...</div>}>
+            <RegistrationForm />
+        </Suspense>
     )
 }
