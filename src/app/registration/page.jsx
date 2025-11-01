@@ -13,7 +13,7 @@
 
 
 "use client";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import RegistrationForm from "../components/RegistrationForm";
