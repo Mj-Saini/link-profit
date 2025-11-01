@@ -6,9 +6,12 @@ import Header from "./components/Header";
 import { DM_Sans } from "next/font/google";
 import { ShareIcon, WishListIcon } from "./components/Icons";
 import { dataSafetyItems, features, reviewTags, screenshots, tags, updates } from "./components/Helper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "./components/Footer";
 import AppDetails from "./components/AppDetails";
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./lib/firebaseConfig";
 
 
 const dmSans = DM_Sans({
@@ -20,6 +23,9 @@ const dmSans = DM_Sans({
 
 export default function Home() {
 
+
+  const [checkedAuth, setCheckedAuth] = useState(false);
+  const router = useRouter();
 
   const [reviews] = useState([
     {
@@ -73,6 +79,27 @@ export default function Home() {
     return stars;
   };
 
+
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.replace("/registration"); // redirect only if not logged in
+      } else {
+        setCheckedAuth(true); // only render page when auth confirmed
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
+
+  // 🩹 SSR safe fix: don't render anything until auth checked
+  if (!checkedAuth) return null;
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push("/registration");
+  };
   return (
     <>
       <Header />
