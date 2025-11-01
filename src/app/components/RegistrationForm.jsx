@@ -1,14 +1,16 @@
 
+
+
+
+
 // "use client";
 // import { useState, useEffect } from "react";
 // import { Eye, EyeOff, Mail, User, Phone, Gift } from "lucide-react";
 // import { useRouter, useSearchParams } from "next/navigation";
 // import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { auth, db } from "../lib/firebaseConfig";
 // import { doc, setDoc } from "firebase/firestore";
-// import { setCookie } from "cookies-next";
+// import { auth, db } from "../lib/firebaseConfig";
 
-// // 🔹 Generate 8-digit numeric userUID
 // const generateRandomUserUID = () => {
 //     const chars = "0123456789";
 //     let uid = "";
@@ -18,7 +20,6 @@
 //     return uid;
 // };
 
-// // 🔹 Get precise timestamp in ISO format
 // const getPreciseTimestamp = () => new Date().toISOString();
 
 // const RegistrationForm = () => {
@@ -29,7 +30,6 @@
 //     const [loading, setLoading] = useState(false);
 //     const [error, setError] = useState("");
 //     const [showPassword, setShowPassword] = useState(false);
-
 //     const [formData, setFormData] = useState({
 //         name: "",
 //         email: "",
@@ -55,42 +55,27 @@
 //         setError("");
 
 //         try {
-//             // ✅ Create auth user
+//             // ✅ create user in Firebase Auth
 //             const userCred = await createUserWithEmailAndPassword(
 //                 auth,
 //                 formData.email,
 //                 formData.password
 //             );
 //             const uid = userCred.user.uid;
-
-//             // ✅ Generate unique 8-digit userUID
 //             const userUID = generateRandomUserUID();
-
-//             // ✅ Current timestamp
 //             const timestamp = getPreciseTimestamp();
 
-//             // ✅ User object structure
 //             const userData = {
-//                 userUID: userUID,
+//                 userUID,
 //                 Id: uid,
 //                 Name: formData.name,
 //                 Email: formData.email,
 //                 Number: formData.phone,
 //                 ReferCode: formData.referral || "",
-//                 ReferredBy: "",
 //                 CreatedAt: timestamp,
 //                 LastLoginTime: timestamp,
-//                 LastLoginDeviceId: "",
 //                 ProfileImage:
 //                     "https://firebasestorage.googleapis.com/v0/b/referral-rise-official.appspot.com/o/Dummy%2Fdummy_img_profile.png?alt=media&token=33c09171-212f-4868-a45a-915166681b24",
-//                 DOB: "",
-//                 AadharNumber: "",
-//                 PanNumber: "",
-//                 AccountHolder: "",
-//                 BranchName: "",
-//                 IFSCCode: "",
-//                 AccountNumber: "",
-//                 upiHandle: "",
 //                 BonusWallet: 20,
 //                 MainWallet: 0,
 //                 Level: 0,
@@ -98,10 +83,9 @@
 //                 isBlocked: false,
 //             };
 
-//             // ✅ Store user data in Firestore
 //             await setDoc(doc(db, "User", uid), userData);
 
-//             router.push("/");
+//             router.push("/"); // ✅ redirect after signup
 //         } catch (err) {
 //             console.error("Signup Error:", err);
 //             setError(err.message);
@@ -114,7 +98,8 @@
 //         <div
 //             className="min-h-screen flex items-center justify-center px-4"
 //             style={{
-//                 background: "linear-gradient(135deg, #0A0A0A, #1A1A2E, #16213E, #0F3460)",
+//                 background:
+//                     "linear-gradient(135deg, #0A0A0A, #1A1A2E, #16213E, #0F3460)",
 //             }}
 //         >
 //             <div className="w-full max-w-md bg-[#0E0E1A]/70 backdrop-blur-md rounded-3xl shadow-[0_0_25px_rgba(0,255,255,0.2)] p-8 border border-[#1F1F3C]">
@@ -126,7 +111,6 @@
 //                 </p>
 
 //                 <form onSubmit={handleSubmit} className="space-y-5">
-//                     {/* Player Name */}
 //                     <div className="relative">
 //                         <User className="absolute left-3 top-3 text-cyan-400" />
 //                         <input
@@ -140,7 +124,6 @@
 //                         />
 //                     </div>
 
-//                     {/* Email */}
 //                     <div className="relative">
 //                         <Mail className="absolute left-3 top-3 text-cyan-400" />
 //                         <input
@@ -154,7 +137,6 @@
 //                         />
 //                     </div>
 
-//                     {/* Phone */}
 //                     <div className="relative">
 //                         <Phone className="absolute left-3 top-3 text-cyan-400" />
 //                         <input
@@ -168,7 +150,6 @@
 //                         />
 //                     </div>
 
-//                     {/* Password */}
 //                     <div className="relative">
 //                         <input
 //                             type={showPassword ? "text" : "password"}
@@ -192,7 +173,6 @@
 //                         )}
 //                     </div>
 
-//                     {/* Referral Code */}
 //                     <div className="relative">
 //                         <Gift className="absolute left-3 top-3 text-cyan-400" />
 //                         <input
@@ -205,7 +185,6 @@
 //                         />
 //                     </div>
 
-//                     {/* Submit Button */}
 //                     <button
 //                         type="submit"
 //                         disabled={loading}
@@ -218,8 +197,6 @@
 //                 {error && (
 //                     <p className="text-red-500 text-center mt-3 text-sm">{error}</p>
 //                 )}
-
-              
 //             </div>
 //         </div>
 //     );
@@ -230,13 +207,12 @@
 
 
 
-
 "use client";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, Mail, User, Phone, Gift } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc, increment } from "firebase/firestore";
 import { auth, db } from "../lib/firebaseConfig";
 
 const generateRandomUserUID = () => {
@@ -283,7 +259,7 @@ const RegistrationForm = () => {
         setError("");
 
         try {
-            // ✅ create user in Firebase Auth
+            // ✅ Create user in Firebase Auth
             const userCred = await createUserWithEmailAndPassword(
                 auth,
                 formData.email,
@@ -293,6 +269,7 @@ const RegistrationForm = () => {
             const userUID = generateRandomUserUID();
             const timestamp = getPreciseTimestamp();
 
+            // ✅ Save new user data in "User" collection
             const userData = {
                 userUID,
                 Id: uid,
@@ -313,6 +290,13 @@ const RegistrationForm = () => {
 
             await setDoc(doc(db, "User", uid), userData);
 
+            // ✅ Update AppUsage -> increment user count and update timestamp
+            const appUsageRef = doc(db, "AppUsage", "docId"); // <-- replace "docId" with your actual document ID
+            await updateDoc(appUsageRef, {
+                TotalUsersCount: increment(1),
+                UpdatedAt: timestamp,
+            });
+
             router.push("/"); // ✅ redirect after signup
         } catch (err) {
             console.error("Signup Error:", err);
@@ -326,8 +310,7 @@ const RegistrationForm = () => {
         <div
             className="min-h-screen flex items-center justify-center px-4"
             style={{
-                background:
-                    "linear-gradient(135deg, #0A0A0A, #1A1A2E, #16213E, #0F3460)",
+                background: "linear-gradient(135deg, #0A0A0A, #1A1A2E, #16213E, #0F3460)",
             }}
         >
             <div className="w-full max-w-md bg-[#0E0E1A]/70 backdrop-blur-md rounded-3xl shadow-[0_0_25px_rgba(0,255,255,0.2)] p-8 border border-[#1F1F3C]">
@@ -431,4 +414,3 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
-
