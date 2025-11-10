@@ -42,14 +42,7 @@ const PaymentSuccessful = () => {
                     Welcome to the premium experience 🚀
                 </p>
 
-                <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-400 text-white font-semibold shadow-[0_0_20px_rgba(16,185,129,0.6)] transition-all duration-300"
-                    onClick={() => (window.location.href = "/")}
-                >
-                    Go to Home
-                </motion.button>
+              
             </motion.div>
 
             {/* ✨ Floating confetti effect */}

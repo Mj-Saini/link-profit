@@ -12,6 +12,7 @@ import AppDetails from "./components/AppDetails";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./lib/firebaseConfig";
+import appLogo from '../../public/logo.jpeg'
 
 
 const dmSans = DM_Sans({
@@ -113,7 +114,7 @@ export default function Home() {
           <div className="flex-1 mt-5 md:mt-24">
             <div className="flex justify-between">
               <div className="flex items-center space-x-4">
-                <Image width={64} height={64} className="flex md:hidden" src={'https://m.sfsfsat.vip/wtasfSat/thefiles/176c28a795414157b2f83ccb41b28113.png'} alt="" />
+                <Image width={64} height={64} className="flex md:hidden" src={appLogo} alt="" />
                 <div>
                   <h1 className={`text-2xl md:text-4xl lg:text-[56px] font-normal text-black ${dmSans.className}`}>Link Profit</h1>
                   <div className="flex flex-col space-x-2 md:mt-3 text-sm text-gray-600">
@@ -122,7 +123,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <Image width={180} height={180} className="md:flex hidden" src={'https://m.sfsfsat.vip/wtasfSat/thefiles/176c28a795414157b2f83ccb41b28113.png'} alt="" />
+              <Image width={180} height={180} className="md:flex hidden" src={appLogo} alt="" />
 </div>
           </div>
         </div>
