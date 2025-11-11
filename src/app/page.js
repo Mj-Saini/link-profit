@@ -4,15 +4,16 @@
 import Image from "next/image";
 import Header from "./components/Header";
 import { DM_Sans } from "next/font/google";
-import { ShareIcon, WishListIcon } from "./components/Icons";
+import { ShareIcon } from "./components/Icons";
 import { dataSafetyItems, features, reviewTags, screenshots, tags, updates } from "./components/Helper";
 import { useEffect, useState } from "react";
 import Footer from "./components/Footer";
 import AppDetails from "./components/AppDetails";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./lib/firebaseConfig";
+import { auth, db } from "./lib/firebaseConfig";
 import appLogo from '../../public/logo.jpeg'
+import { doc, getDoc } from "firebase/firestore";
 
 
 const dmSans = DM_Sans({
@@ -24,7 +25,8 @@ const dmSans = DM_Sans({
 
 export default function Home() {
 
-
+  const [appUrl, setAppUrl] = useState("");
+  const [loading, setLoading] = useState(true);
   const [checkedAuth, setCheckedAuth] = useState(false);
   const router = useRouter();
 
@@ -80,27 +82,69 @@ export default function Home() {
     return stars;
   };
 
+  const fetchAppConfig = async () => {
+    try {
+      const appConfigRef = doc(db, "Appconfig", "docId");
+      const appConfigSnap = await getDoc(appConfigRef);
 
+      if (appConfigSnap.exists()) {
+        const configData = appConfigSnap.data();
+        setAppUrl(configData.appURL || "");
+        console.log("✅ App URL fetched:", configData.appURL);
+      } else {
+        console.log("❌ AppConfig document not found");
+      }
+    } catch (error) {
+      console.error("❌ Error fetching AppConfig:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
-        router.replace("/registration"); // redirect only if not logged in
+        router.replace("/registration");
       } else {
-        setCheckedAuth(true); // only render page when auth confirmed
+        setCheckedAuth(true);
+        // ✅ Fetch app config when auth is confirmed
+        fetchAppConfig();
       }
     });
     return () => unsubscribe();
   }, [router]);
 
+
+  // ✅ Handle Install Button Click
+  const handleInstallClick = () => {
+    if (appUrl) {
+      window.open(appUrl, "_blank");
+      console.log("📱 Opening app download link:", appUrl);
+    } else {
+      console.log("❌ App URL not available");
+      alert("App download link is currently unavailable. Please try again later.");
+    }
+  };
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (!user) {
+  //       router.replace("/registration"); // redirect only if not logged in
+  //     } else {
+  //       setCheckedAuth(true); // only render page when auth confirmed
+  //     }
+  //   });
+  //   return () => unsubscribe();
+  // }, [router]);
+
+
+  console.log(appUrl,"appus")
+
   // 🩹 SSR safe fix: don't render anything until auth checked
   if (!checkedAuth) return null;
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    router.push("/registration");
-  };
+
   return (
     <>
       <Header />
@@ -158,19 +202,24 @@ export default function Home() {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap md:space-x-4 mt-6 max-w-[600px] ">
-          <button className="flex justify-center w-full text-sm md:w-[200px] text-center bg-[#105943] text-white py-1.5 rounded-md font-normal">
-            Install
+          <button
+            onClick={handleInstallClick}
+            disabled={!appUrl}
+            className={`flex justify-center w-full text-sm md:w-[200px] text-center text-white py-1.5 rounded-md font-normal transition ${appUrl
+                ? "bg-[#105943] hover:bg-[#0c4a34] cursor-pointer"
+                : "bg-gray-400 cursor-not-allowed"
+              }`}
+          >
+            {appUrl ? "Install" : "Loading..."}
           </button>
+
           <div className="flex flex-wrap space-x-4 justify-center md:justify-start max-md:mx-auto mt-3 md:mt-0">
 
             <button className="flex justify-center gap-2 cursor-pointer text-center text-[#105943] py-1.5 rounded-xl font-normal transition">
               <ShareIcon />
               share
             </button>
-            <button className="flex justify-center gap-2 text-center text-[#a2aab5] py-1.5 font-normal">
-              <WishListIcon />
-              Add to wishlist
-            </button>
+       
 </div>
 
         </div>
@@ -290,7 +339,7 @@ export default function Home() {
                     const widthPercent = (r.count / maxCount) * 100;
                     return (
                       <div key={r.stars} className="flex items-center gap-2">
-                        <span className="w-4 text-sm font-medium">{r.stars}</span>
+                        <span className="w-4 text-sm font-medium"></span>
                         <span className="text-right text-sm text-gray-600">
                           {r.stars}
                         </span>
@@ -310,7 +359,7 @@ export default function Home() {
 
               <div className="space-y-6">
                 {reviews.map((review) => (
-                  <div key={review.id} className="border py-4 rounded-lg shadow-sm">
+                  <div key={review.id} className="border p-4 rounded-lg shadow-sm">
                     <div className="flex items-center gap-3 mb-2">
                       <Image
                         src={review.avatar}
