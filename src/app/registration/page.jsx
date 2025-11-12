@@ -22,15 +22,7 @@ import { auth } from "../lib/firebaseConfig";
 export default function RegistrationPage() {
     const router = useRouter();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // agar login hai to registration access mat do
-                router.push("/");
-            }
-        });
-        return () => unsubscribe();
-    }, [router]);
+  
 
 
     return (

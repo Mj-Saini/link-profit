@@ -30,6 +30,17 @@ export default function Home() {
   const [checkedAuth, setCheckedAuth] = useState(false);
   const router = useRouter();
 
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // Agar user logged in nahi hai to registration page redirect karo
+        router.replace("/registration");
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
+
   const [reviews] = useState([
     {
       id: 1,
@@ -127,17 +138,7 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (!user) {
-  //       router.replace("/registration"); // redirect only if not logged in
-  //     } else {
-  //       setCheckedAuth(true); // only render page when auth confirmed
-  //     }
-  //   });
-  //   return () => unsubscribe();
-  // }, [router]);
-
+  
 
   console.log(appUrl,"appus")
 
