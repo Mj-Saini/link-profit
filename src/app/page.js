@@ -160,7 +160,7 @@ export default function Home() {
               <div className="flex items-center space-x-4">
                 <Image width={64} height={64} className="flex md:hidden" src={appLogo} alt="" />
                 <div>
-                  <h1 className={`text-2xl md:text-4xl lg:text-[56px] font-normal text-black ${dmSans.className}`}>Link Profit</h1>
+                  <h1 className={`text-2xl md:text-4xl lg:text-[56px] font-normal text-black ${dmSans.className}`}> Profit Area</h1>
                   <div className="flex flex-col space-x-2 md:mt-3 text-sm text-gray-600">
                     <span className="text-[#105943] capitalize">earning Hub</span>
                     <span className="text-xs text-[#9AA0A6]">In-app purchases</span>

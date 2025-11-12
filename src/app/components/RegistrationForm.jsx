@@ -286,7 +286,7 @@ const RegistrationForm = () => {
             {/* ✅ Gaming Background Animation */}
             <GamingBackground />
 
-            <div className="flex flex-wrap">
+            <div className="flex items-center flex-wrap">
                 <div className="hidden lg:flex w-1/2 lg:pe-5 backdrop-blur-xl rounded-3xl shadow-2xl">
                     <Image className="backdrop-blur-xl rounded-3xl shadow-2xl" src={logo} alt="logo"  />
                </div>
@@ -295,7 +295,7 @@ const RegistrationForm = () => {
                 <div className="w-full lg:w-1/2 lg:ps-5">
                     <div className="flex gap-3 items-center justify-center pb-5 lg:hidden">
                         <Image className="w-15 h-15 lg:w-full lg:h-auto backdrop-blur-xl rounded-3xl shadow-2xl" src={logo} alt="logo" />
-                        <h2 className="font-semibold text-3xl">Link Profit</h2>
+                        <h2 className="font-semibold text-3xl">Profit Area</h2>
                     </div>
                     <div className=" bg-[#0E0E1A]/80 backdrop-blur-xl rounded-3xl shadow-2xl p-5 lg:p-8 border border-[#6B8CFF]/30 relative z-10 transform hover:scale-[1.02] transition-transform duration-300">
 
