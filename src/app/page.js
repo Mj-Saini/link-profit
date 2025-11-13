@@ -101,7 +101,6 @@ export default function Home() {
       if (appConfigSnap.exists()) {
         const configData = appConfigSnap.data();
         setAppUrl(configData.appURL || "");
-        console.log("✅ App URL fetched:", configData.appURL);
       } else {
         console.log("❌ AppConfig document not found");
       }
@@ -139,8 +138,6 @@ export default function Home() {
   };
 
   
-
-  console.log(appUrl,"appus")
 
   // 🩹 SSR safe fix: don't render anything until auth checked
   if (!checkedAuth) return null;
