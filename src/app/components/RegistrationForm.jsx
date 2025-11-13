@@ -269,7 +269,6 @@ const RegistrationForm = () => {
             // ✅ Save new user data in "User" collection
             const userData = {
                 userUID,
-                Id: uid,
                 Name: formData.name,
                 Email: formData.email,
                 Number: formData.phone,
