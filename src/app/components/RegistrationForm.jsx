@@ -9,7 +9,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, updateDoc, increment, getDoc } from "firebase/firestore";
 import { auth, db } from "../lib/firebaseConfig";
 import Image from "next/image";
-import logo from '../../../public/logo.jpeg'
+import logo from '../../../public/assets/logo.jpeg'
 
 const generateRandomUserUID = () => {
     const chars = "0123456789";
