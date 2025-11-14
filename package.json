@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "export":"next build"
+    "export": "next build"
   },
   "dependencies": {
     "cookies-next": "^6.1.0",
