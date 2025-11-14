@@ -1,6 +1,5 @@
 
 
-
 "use client";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, Mail, User, Phone, Gift, CheckCircle, XCircle, Download } from "lucide-react";
@@ -78,12 +77,11 @@ const GamingBackground = () => {
 const RegistrationForm = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
-    // const referralFromURL = searchParams?.get("Invitecode");
 
+    // function: try next/navigation first, then fallback to window.location
     const getInviteFromSearchParams = () => {
         try {
-            // next/navigation hook (works in App Router client component)
-            const invite = searchParams?.get("Invitecode");
+            const invite = searchParams?.get("Invitecode") || searchParams?.get("invitecode");
             if (invite) return invite;
         } catch (e) {
             // ignore
@@ -97,9 +95,6 @@ const RegistrationForm = () => {
         }
         return null;
     };
-
-    // initial referralFromURL via function (not from hook directly)
-    const referralFromURL = getInviteFromSearchParams();
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -148,13 +143,22 @@ const RegistrationForm = () => {
         }
     };
 
+    // compute referral + fetch config on client mount
     useEffect(() => {
-        if (referralFromURL) {
-            setFormData((prev) => ({ ...prev, referral: referralFromURL }));
+        const referral = getInviteFromSearchParams();
+        if (referral) {
+            setFormData(prev => ({ ...prev, referral }));
         }
-        // Fetch app config when component mounts
+
+        // debug logs (remove in production if you want)
+        if (typeof window !== "undefined") {
+            console.info("Registration loaded:", window.location.href);
+            console.info("Computed invite:", referral);
+        }
+
         fetchAppConfig();
-    }, [referralFromURL]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // ✅ Handle Install Button Click
     const handleInstallClick = () => {
@@ -298,7 +302,7 @@ const RegistrationForm = () => {
                 LastLoginTime: timestamp,
                 ProfileImage:
                     "https://firebasestorage.googleapis.com/v0/b/referral-rise-official.appspot.com/o/Dummy%2Fdummy_img_profile.png?alt=media&token=33c09171-212f-4868-a45a-915166681b24",
-                BonusWallet: 20,
+                BonusWallet:0,
                 MainWallet: 0,
                 Level: 0,
                 Token: "",
@@ -316,7 +320,7 @@ const RegistrationForm = () => {
 
             router.push("/");
         } catch (err) {
-            setError(err.message);
+            setError(String((err && (err).message) || err || "Something went wrong"));
         } finally {
             setLoading(false);
         }
@@ -411,12 +415,14 @@ const RegistrationForm = () => {
                                 <Phone className="absolute left-3 top-3 text-cyan-400 group-hover:text-purple-400 transition-colors duration-300" />
                                 <input
                                     type="tel"
+                                    inputMode="numeric"
+                                    pattern="[0-9]*"
                                     name="phone"
                                     placeholder="Enter your phone number"
                                     value={formData.phone}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    maxLength="10"
+                                    maxLength={10}
                                     className={`w-full pl-10 pr-10 py-3 rounded-xl bg-black/40 border text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 group-hover:border-cyan-400 ${validation.phone.isTouched
                                         ? validation.phone.isValid
                                             ? "border-green-500 focus:ring-green-500"
