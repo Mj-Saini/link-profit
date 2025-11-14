@@ -78,7 +78,28 @@ const GamingBackground = () => {
 const RegistrationForm = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const referralFromURL = searchParams?.get("Invitecode");
+    // const referralFromURL = searchParams?.get("Invitecode");
+
+    const getInviteFromSearchParams = () => {
+        try {
+            // next/navigation hook (works in App Router client component)
+            const invite = searchParams?.get("Invitecode");
+            if (invite) return invite;
+        } catch (e) {
+            // ignore
+        }
+
+        // Fallback — reads directly from browser URL (works anywhere client-side)
+        if (typeof window !== "undefined") {
+            const u = new URL(window.location.href);
+            const invite = u.searchParams.get("Invitecode") || u.searchParams.get("invitecode");
+            if (invite) return invite;
+        }
+        return null;
+    };
+
+    // initial referralFromURL via function (not from hook directly)
+    const referralFromURL = getInviteFromSearchParams();
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
