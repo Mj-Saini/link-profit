@@ -1,11 +1,12 @@
 
 
+
 "use client";
 import { useState, useEffect } from "react";
-import { Eye, EyeOff, Mail, User, Phone, Gift, CheckCircle, XCircle } from "lucide-react";
+import { Eye, EyeOff, Mail, User, Phone, Gift, CheckCircle, XCircle, Download } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, updateDoc, increment } from "firebase/firestore";
+import { doc, setDoc, updateDoc, increment, getDoc } from "firebase/firestore";
 import { auth, db } from "../lib/firebaseConfig";
 import Image from "next/image";
 import logo from '../../../public/logo.jpeg'
@@ -30,7 +31,7 @@ const GamingBackground = () => {
 
             {/* Floating Gaming Elements */}
             <div className="absolute inset-0">
-           
+
                 {/* Floating Stars */}
                 {[...Array(20)].map((_, i) => (
                     <div
@@ -82,6 +83,9 @@ const RegistrationForm = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [appUrl, setAppUrl] = useState("");
+    const [appLoading, setAppLoading] = useState(true);
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -104,11 +108,41 @@ const RegistrationForm = () => {
         }
     });
 
+    // ✅ Fetch App Config from Firebase
+    const fetchAppConfig = async () => {
+        try {
+            const appConfigRef = doc(db, "Appconfig", "docId");
+            const appConfigSnap = await getDoc(appConfigRef);
+
+            if (appConfigSnap.exists()) {
+                const configData = appConfigSnap.data();
+                setAppUrl(configData.appURL || "");
+            } else {
+                console.log("❌ AppConfig document not found");
+            }
+        } catch (error) {
+            console.error("❌ Error fetching AppConfig:", error);
+        } finally {
+            setAppLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (referralFromURL) {
             setFormData((prev) => ({ ...prev, referral: referralFromURL }));
         }
+        // Fetch app config when component mounts
+        fetchAppConfig();
     }, [referralFromURL]);
+
+    // ✅ Handle Install Button Click
+    const handleInstallClick = () => {
+        if (appUrl) {
+            window.open(appUrl, "_blank");
+        } else {
+            alert("App download link is currently unavailable. Please try again later.");
+        }
+    };
 
     // ✅ Phone Number Validation
     const validatePhone = (phone) => {
@@ -235,7 +269,6 @@ const RegistrationForm = () => {
             // ✅ Save new user data in "User" collection
             const userData = {
                 userUID,
-                Id: uid,
                 Name: formData.name,
                 Email: formData.email,
                 Number: formData.phone,
@@ -262,7 +295,6 @@ const RegistrationForm = () => {
 
             router.push("/");
         } catch (err) {
-            console.error("Signup Error:", err);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -288,8 +320,8 @@ const RegistrationForm = () => {
 
             <div className="flex items-center flex-wrap">
                 <div className="hidden lg:flex w-1/2 lg:pe-5 backdrop-blur-xl rounded-3xl shadow-2xl">
-                    <Image className="backdrop-blur-xl rounded-3xl shadow-2xl" src={logo} alt="logo"  />
-               </div>
+                    <Image className="backdrop-blur-xl rounded-3xl shadow-2xl" src={logo} alt="logo" />
+                </div>
 
                 {/* Main Form Container */}
                 <div className="w-full lg:w-1/2 lg:ps-5">
@@ -307,6 +339,21 @@ const RegistrationForm = () => {
                             <p className="text-gray-300 animate-pulse">
                                 Create your account and start earning rewards
                             </p>
+                        </div>
+
+                        {/* ✅ INSTALL BUTTON - Registration Form के ऊपर */}
+                        <div className="mb-6">
+                            <button
+                                onClick={handleInstallClick}
+                                disabled={!appUrl}
+                                className={`w-full flex items-center justify-center gap-2 text-white py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 ${appUrl
+                                    ? "bg-gradient-to-r from-[#105943] to-[#0c4a34] shadow-lg shadow-green-500/25 hover:shadow-green-500/40"
+                                    : "bg-gray-600 cursor-not-allowed opacity-50"
+                                    }`}
+                            >
+                                <Download size={20} />
+                                {appUrl ? "Install App Now" : "Loading App..."}
+                            </button>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-5">
@@ -483,8 +530,8 @@ const RegistrationForm = () => {
                             </div>
                         )}
                     </div>
-               </div>
-           </div>
+                </div>
+            </div>
 
             {/* Add CSS for animations */}
             <style jsx>{`
