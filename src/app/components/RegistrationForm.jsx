@@ -298,7 +298,7 @@ const RegistrationForm = () => {
                 LastLoginTime: timestamp,
                 ProfileImage:
                     "https://firebasestorage.googleapis.com/v0/b/referral-rise-official.appspot.com/o/Dummy%2Fdummy_img_profile.png?alt=media&token=33c09171-212f-4868-a45a-915166681b24",
-                BonusWallet: 20,
+                BonusWallet: 0,
                 MainWallet: 0,
                 Level: 0,
                 Token: "",
