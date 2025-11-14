@@ -1,13 +1,20 @@
-import { CloudUpload, Locate, Lock, Share2, Trash } from "lucide-react";
+import { CloudUpload, Lock, Share2, Trash } from "lucide-react";
+
+import img1 from '../../../public/assets/img1.webp'
+import img2 from '../../../public/assets/img2.webp'
+import img3 from '../../../public/assets/img3.webp'
+import img4 from '../../../public/assets/img4.webp'
+import img5 from '../../../public/assets/img5.webp'
+import img6 from '../../../public/assets/img6.webp'
 
 
 export const screenshots = [
-    { src: "https://m.sfsfsat.vip/wtasfSat/thefiles/5p3.png", alt: "Screenshot 1" },
-    { src: "https://m.sfsfsat.vip/wtasfSat/thefiles/WF1.jpg", alt: "Screenshot 2" },
-    { src: "https://m.sfsfsat.vip/wtasfSat/thefiles/SF_1.jpg", alt: "Screenshot 3" },
-    { src: "https://m.sfsfsat.vip/wtasfSat/thefiles/SF_2.jpg", alt: "Screenshot 4" },
-    { src: "https://m.sfsfsat.vip/wtasfSat/thefiles/SF_3.jpg", alt: "Screenshot 5" },
-    { src: "https://m.sfsfsat.vip/wtasfSat/thefiles/SF_4.jpg", alt: "Screenshot 6" },
+    { src: img1, alt: "Screenshot 1" },
+    { src: img2, alt: "Screenshot 2" },
+    { src: img3, alt: "Screenshot 3" },
+    { src: img4, alt: "Screenshot 4" },
+    { src: img5, alt: "Screenshot 5" },
+    { src: img6, alt: "Screenshot 6" },
 ];
 
 

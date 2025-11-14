@@ -1,6 +1,8 @@
 "use client"; // Required for Next.js app directory
 
 import React from "react";
+import indianFlag from '../../../public/assets/indian-flag.png'
+import Image from "next/image";
 
 const Footer = () => {
     const sections = [
@@ -70,7 +72,7 @@ const Footer = () => {
 
                 {/* Country / language section */}
                 <div className="flex items-center gap-2 ml-auto">
-                    <img src="https://m.sfsfsat.vip/wtasfSat/thefiles/us.png" alt="India" className="h-6 w-6 object-contain" />
+                    <Image src={indianFlag} alt="India" className="h-6 w-6 object-contain" />
                     <span>India (English (India))</span>
                 </div>
             </div>

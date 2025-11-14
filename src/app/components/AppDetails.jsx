@@ -5,6 +5,10 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import jackpotImg from '../../../public/assets/jeckpot-party.webp'
+import dancingDrums from '../../../public/assets/dancing-drum.webp'
+import goldFish from '../../../public/assets/gold-fish.webp'
+
 const AppDetails = () => {
     const supportLinks = [
         {
@@ -36,19 +40,19 @@ const AppDetails = () => {
             title: "Jackpot Party Casino Slots",
             developer: "SF Games",
             rating: 4.6,
-            image: "https://play.googlelucky.com/store/apps/com.slots.casino.vegas.free.game/thefiles/unnamed(8).webp",
+            image: jackpotImg,
         },
         {
             title: "Dancing Drums Slots Casino",
             developer: "SF Games",
             rating: 3.5,
-            image: "https://play.googlelucky.com/store/apps/com.slots.casino.vegas.free.game/thefiles/unnamed(9).webp",
+            image: dancingDrums,
         },
         {
             title: "Gold Fish Casino Slot Games",
             developer: "SF Games",
             rating: 4.8,
-            image: "https://play.googlelucky.com/store/apps/com.slots.casino.vegas.free.game/thefiles/unnamed(10).webp",
+            image: goldFish,
         },
     ];
 
@@ -63,7 +67,7 @@ const AppDetails = () => {
                 <div className="flex flex-col gap-4">
                     {games.map((game) => (
                         <Link key={game.title} href="#" className="bg-gray-50 rounded overflow-hidden transition flex">
-                            <img src={game.image} alt={game.title} className=" h-16 w-16 object-cover rounded-xl" />
+                            <Image src={game.image} alt={game.title} className=" h-16 w-16 object-cover rounded-xl" />
                             <div className="p-2">
                                 <h3 className="font-medium text-[#202124] text-sm">{game.title}</h3>
                                 <p className=" text-gray-500 text-xs">{game.developer}</p>
