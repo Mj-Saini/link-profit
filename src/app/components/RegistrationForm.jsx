@@ -1,7 +1,3 @@
-
-
-
-
 "use client";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, Mail, User, Phone, Gift, CheckCircle, XCircle, Download } from "lucide-react";
