@@ -178,8 +178,8 @@ const RegistrationForm = () => {
                 Name: newUserName,
                 ProfileImage: "https://firebasestorage.googleapis.com/v0/b/referral-rise-official.appspot.com/o/Dummy%2Fdummy_img_profile.png?alt=media&token=33c09171-212f-4868-a45a-915166681b24",
                 ReferCode: formData.referral,
-                referFromId: newUserAuthUID, // Firebase Auth UID
-                userId: newUserUID,
+                referFromId: newUserUID, // Firebase Auth UID
+                userId: newUserAuthUID,
                 IsVIPUnlocked: false// Custom userUID
             };
 
@@ -407,12 +407,7 @@ const RegistrationForm = () => {
         }
     };
 
-    // ✅ Generate referral code for new user
-    const generateReferralCode = (name) => {
-        const prefix = name.substring(0, 3).toUpperCase();
-        const randomNum = Math.floor(100 + Math.random() * 900);
-        return `${prefix}${randomNum}`;
-    };
+   
 
     // ✅ Check if form is valid for submission
     const isFormValid = () => {
